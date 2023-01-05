@@ -1,0 +1,66 @@
+﻿@page
+@model petclinicFront.Pages.Mascotas.CreateModel
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+<h1>Nueva Mascota</h1>
+
+<h4></h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label class="control-label">Nombre</label>
+                <input asp-for="Mascota.Mascota1" class="form-control" />
+                <span asp-validation-for="Mascota.Mascota1" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label class="control-label">Dueño</label>
+                <select asp-for="Mascota.DuenoId" asp-items="Model.LookUpDueno" class="form-control"></select>
+                <span asp-validation-for="Mascota.DuenoId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label class="control-label">Fecha de nacimiento</label>
+                <input asp-for="Mascota.FechaNacimiento" class="form-control" />
+                <span asp-validation-for="Mascota.FechaNacimiento" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label class="control-label">Tipo de mascota</label>
+                <select asp-for="Mascota.TipoId" asp-items="Model.LookUpTipo" class="form-control"></select>
+                <span asp-validation-for="Mascota.TipoId" class="text-danger"></span>
+            </div>
+            @*<div class="form-group">
+            <label asp-for="Dueno.Direccion" class="control-label"></label>
+            <input asp-for="Dueno.Direccion" class="form-control" />
+            <span asp-validation-for="Dueno.Direccion" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Dueno.Ciudad" class="control-label"></label>
+            <input asp-for="Dueno.Ciudad" class="form-control" />
+            <span asp-validation-for="Dueno.Ciudad" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Dueno.Telefono" class="control-label"></label>
+            <input asp-for="Dueno.Telefono" class="form-control" />
+            <span asp-validation-for="Dueno.Telefono" class="text-danger"></span>
+        </div>*@
+            <div class="form-group">
+                <input type="submit" value="Guardar" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-page="Index">Atrás</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

@@ -1,0 +1,51 @@
+# ASP.NET Core
+# Build and test ASP.NET Core projects targeting .NET Core.
+# Add steps that run tests, create a NuGet package, deploy, and more:
+# https://docs.microsoft.com/azure/devops/pipelines/languages/dotnet-core
+
+trigger:
+  batch: true
+  branches:
+    include:
+    # - release/PetclinicFront/v*
+    # - refs/release/PetclinicFront/v*
+    # - master
+    - feature/PetclinicFront/*
+    # - topic/PetclinicFront/*
+  paths:
+    include:
+    - /PetclinicFront/
+    - /PetclinicFront.Tests/
+
+pool:
+  vmImage: ubuntu-20.04
+
+variables:
+  buildConfiguration: 'Release'
+  project: 'PetclinicFront/PetclinicFront.csproj'
+  projectTest: 'PetclinicFront.Tests/PetclinicFront.Tests.csproj'
+
+steps:
+# 1 - Execute unit test
+- task: DotNetCoreCLI@2
+  displayName: 'Pruebas unitarias'
+  inputs:
+    command: 'test'
+    projects: '$(projectTest)'
+    testRunTitle: PetclinicFront.Tests
+    # publishTestResults: false
+
+# 2 - Restore dependencies
+- task: DotNetCoreCLI@2
+  displayName: 'Restaurar dependencias'
+  inputs:
+    command: 'restore'
+    projects: '$(project)'
+    feedsToUse: 'select'
+
+# 2 - Build project
+- task: DotNetCoreCLI@2
+  displayName: 'Construir proyecto'
+  inputs:
+    command: 'build'
+    projects: '$(project)'

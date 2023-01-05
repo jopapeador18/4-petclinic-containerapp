@@ -1,0 +1,35 @@
+﻿@page
+@model petclinicFront.Pages.Veterinarios.DeleteModel
+
+@{
+    ViewData["Title"] = "Delete";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+<h1>Eliminar registro</h1>
+
+<h3>¿Realmente deseas eliminar este registro?</h3>
+<div>
+    <h4>Esta operación es irreversible.</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Veterinario.Nombre)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Veterinario.Nombre)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Veterinario.Apellido)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Veterinario.Apellido)
+        </dd>
+    </dl>
+    
+    <form method="post">
+        <input type="hidden" asp-for="Veterinario.VeterinarioId" />
+        <input type="submit" value="Eliminar" class="btn btn-danger" /> |
+        <a asp-page="./Index">Atrás</a>
+    </form>
+</div>

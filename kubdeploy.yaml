@@ -1,0 +1,157 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: microduenos
+  labels:
+    app: microduenos
+spec:
+  replicas: 1
+  template:
+    metadata:
+      name: microduenos
+      labels:
+        app: microduenos
+    spec:
+      nodeSelector:
+        "beta.kubernetes.io/os": windows
+        agentpool: winode
+      containers:
+      - name: microduenos
+        image: kubopsdemoacr.azurecr.io/microduenos:latest
+        env:
+          - name: "SQL_CONNECTION_STRING"
+            valueFrom:
+              secretKeyRef:
+                name: "connection-strings"
+                key: petclinicCS
+        resources:
+          limits:
+            cpu: 1
+            memory: 500M
+          requests:
+            cpu: .1
+            memory: 300M
+        ports:
+          - containerPort: 80
+      imagePullSecrets:
+      - name: regcred
+  selector:
+    matchLabels:
+      app: microduenos
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: microduenos
+spec:
+  type: ClusterIP
+  ports:
+  - protocol: TCP
+    port: 80
+  selector:
+    app: microduenos
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: microvets
+  labels:
+    app: microvets
+spec:
+  replicas: 1
+  template:
+    metadata:
+      name: microvets
+      labels:
+        app: microvets
+    spec:
+      nodeSelector:
+        "beta.kubernetes.io/os": windows
+        agentpool: winode
+      containers:
+      - name: microvets
+        image: kubopsdemoacr.azurecr.io/microvets:latest
+        env:
+          - name: "SQL_CONNECTION_STRING"
+            valueFrom:
+              secretKeyRef:
+                name: "connection-strings"
+                key: petclinicCS
+        resources:
+          limits:
+            cpu: 1
+            memory: 500M
+          requests:
+            cpu: .1
+            memory: 300M
+        ports:
+          - containerPort: 80
+      imagePullSecrets:
+      - name: regcred
+  selector:
+    matchLabels:
+      app: microvets
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: microvets
+spec:
+  type: ClusterIP
+  ports:
+  - protocol: TCP
+    port: 80
+  selector:
+    app: microvets
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: petclinicfront
+  labels:
+    app: petclinicfront
+spec:
+  replicas: 5
+  template:
+    metadata:
+      name: petclinicfront
+      labels:
+        app: petclinicfront
+    spec:
+      nodeSelector:
+        "beta.kubernetes.io/os": linux
+        agentpool: nodepool1
+      containers:
+      - name: petclinicfront
+        image: kubopsdemoacr.azurecr.io/petclinicfront:latest
+        env:
+        - name: CLIENTES_BACKEND
+          value: "http://microduenos"
+        - name: VETS_BACKEND
+          value: "http://microvets"
+        resources:
+          limits:
+            cpu: 1
+            memory: 800M
+          requests:
+            cpu: .1
+            memory: 300M
+        ports:
+          - containerPort: 80
+      imagePullSecrets:
+      - name: regcred
+  selector:
+    matchLabels:
+      app: petclinicfront
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: petclinicfront
+spec:
+  type: LoadBalancer
+  ports:
+  - protocol: TCP
+    port: 80
+  selector:
+    app: petclinicfront

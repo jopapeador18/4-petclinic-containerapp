@@ -1,0 +1,343 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="AzureSQLPetclinicModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012.Azure" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Dueno">
+          <Key>
+            <PropertyRef Name="Dueno_Id" />
+          </Key>
+          <Property Name="Dueno_Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nombre" Type="varchar" MaxLength="30" />
+          <Property Name="Apellido" Type="varchar" MaxLength="30" />
+          <Property Name="Direccion" Type="varchar" MaxLength="255" />
+          <Property Name="Ciudad" Type="varchar" MaxLength="80" />
+          <Property Name="Telefono" Type="varchar" MaxLength="20" />
+        </EntityType>
+        <EntityType Name="Mascota">
+          <Key>
+            <PropertyRef Name="Mascota_Id" />
+          </Key>
+          <Property Name="Mascota_Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Mascota" Type="varchar" MaxLength="30" />
+          <Property Name="Fecha_Nacimiento" Type="date" />
+          <Property Name="Tipo_Id" Type="int" Nullable="false" />
+          <Property Name="Dueno_Id" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Tipo">
+          <Key>
+            <PropertyRef Name="Tipo_Id" />
+          </Key>
+          <Property Name="Tipo_Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Tipo" Type="varchar" MaxLength="30" />
+        </EntityType>
+        <EntityType Name="Veterinario">
+          <Key>
+            <PropertyRef Name="Veterinario_Id" />
+          </Key>
+          <Property Name="Veterinario_Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nombre" Type="varchar" MaxLength="30" />
+          <Property Name="Apellido" Type="varchar" MaxLength="30" />
+        </EntityType>
+        <EntityType Name="Veterinario_Especialidad">
+          <Key>
+            <PropertyRef Name="Veterinario_Especialidad_Id" />
+          </Key>
+          <Property Name="Veterinario_Especialidad_Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Veterinario_Id" Type="int" Nullable="false" />
+          <Property Name="Especialidad_Id" Type="int" Nullable="false" />
+        </EntityType>
+        <!--Errores durante la generación:
+advertencia 6002: La tabla o vista 'AzureSQLPetclinic.dbo.Duenos_Grid' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
+        <EntityType Name="Duenos_Grid">
+          <Key>
+            <PropertyRef Name="Dueno_Id" />
+            
+          </Key>
+          <Property Name="Dueno_Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nombre" Type="varchar" MaxLength="30" />
+          <Property Name="Apellido" Type="varchar" MaxLength="30" />
+          <Property Name="Direccion" Type="varchar" MaxLength="255" />
+          <Property Name="Ciudad" Type="varchar" MaxLength="80" />
+          <Property Name="Telefono" Type="varchar" MaxLength="20" />
+          <Property Name="Mascotas" Type="varchar" MaxLength="8000" Nullable="false" />
+        </EntityType>
+        <Association Name="FK__Mascota__Dueno_I__6EF57B66">
+          <End Role="Dueno" Type="Self.Dueno" Multiplicity="1" />
+          <End Role="Mascota" Type="Self.Mascota" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Dueno">
+              <PropertyRef Name="Dueno_Id" />
+            </Principal>
+            <Dependent Role="Mascota">
+              <PropertyRef Name="Dueno_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Mascota__Tipo_Id__6E01572D">
+          <End Role="Tipo" Type="Self.Tipo" Multiplicity="1" />
+          <End Role="Mascota" Type="Self.Mascota" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tipo">
+              <PropertyRef Name="Tipo_Id" />
+            </Principal>
+            <Dependent Role="Mascota">
+              <PropertyRef Name="Tipo_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Veterinar__Veter__6FE99F9F">
+          <End Role="Veterinario" Type="Self.Veterinario" Multiplicity="1" />
+          <End Role="Veterinario_Especialidad" Type="Self.Veterinario_Especialidad" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Veterinario">
+              <PropertyRef Name="Veterinario_Id" />
+            </Principal>
+            <Dependent Role="Veterinario_Especialidad">
+              <PropertyRef Name="Veterinario_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="AzureSQLPetclinicModelStoreContainer">
+          <EntitySet Name="Dueno" EntityType="Self.Dueno" Schema="APP" store:Type="Tables" />
+          <EntitySet Name="Mascota" EntityType="Self.Mascota" Schema="APP" store:Type="Tables" />
+          <EntitySet Name="Tipo" EntityType="Self.Tipo" Schema="APP" store:Type="Tables" />
+          <EntitySet Name="Veterinario" EntityType="Self.Veterinario" Schema="APP" store:Type="Tables" />
+          <EntitySet Name="Veterinario_Especialidad" EntityType="Self.Veterinario_Especialidad" Schema="APP" store:Type="Tables" />
+          <EntitySet Name="Duenos_Grid" EntityType="Self.Duenos_Grid" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [Duenos_Grid].[Dueno_Id] AS [Dueno_Id], 
+    [Duenos_Grid].[Nombre] AS [Nombre], 
+    [Duenos_Grid].[Apellido] AS [Apellido], 
+    [Duenos_Grid].[Direccion] AS [Direccion], 
+    [Duenos_Grid].[Ciudad] AS [Ciudad], 
+    [Duenos_Grid].[Telefono] AS [Telefono], 
+    [Duenos_Grid].[Mascotas] AS [Mascotas]
+    FROM [dbo].[Duenos_Grid] AS [Duenos_Grid]</DefiningQuery>
+          </EntitySet>
+          <AssociationSet Name="FK__Mascota__Dueno_I__6EF57B66" Association="Self.FK__Mascota__Dueno_I__6EF57B66">
+            <End Role="Dueno" EntitySet="Dueno" />
+            <End Role="Mascota" EntitySet="Mascota" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Mascota__Tipo_Id__6E01572D" Association="Self.FK__Mascota__Tipo_Id__6E01572D">
+            <End Role="Tipo" EntitySet="Tipo" />
+            <End Role="Mascota" EntitySet="Mascota" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Veterinar__Veter__6FE99F9F" Association="Self.FK__Veterinar__Veter__6FE99F9F">
+            <End Role="Veterinario" EntitySet="Veterinario" />
+            <End Role="Veterinario_Especialidad" EntitySet="Veterinario_Especialidad" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="AzureSQLPetclinicModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Duenos_Grid">
+          <Key>
+            <PropertyRef Name="Dueno_Id" />
+          </Key>
+          <Property Name="Dueno_Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nombre" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="Apellido" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="Direccion" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Ciudad" Type="String" MaxLength="80" FixedLength="false" Unicode="false" />
+          <Property Name="Telefono" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Mascotas" Type="String" MaxLength="8000" FixedLength="false" Unicode="false" Nullable="false" />
+        </EntityType>
+        <EntityContainer Name="AzureSQLPetclinicEntities1" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Duenos_Grid" EntityType="Self.Duenos_Grid" />
+          <EntitySet Name="Duenoes" EntityType="AzureSQLPetclinicModel.Dueno" />
+          <EntitySet Name="Mascotas" EntityType="AzureSQLPetclinicModel.Mascota" />
+          <AssociationSet Name="FK__Mascota__Dueno_I__6EF57B66" Association="AzureSQLPetclinicModel.FK__Mascota__Dueno_I__6EF57B66">
+            <End Role="Dueno" EntitySet="Duenoes" />
+            <End Role="Mascota" EntitySet="Mascotas" />
+          </AssociationSet>
+          <EntitySet Name="Tipoes" EntityType="AzureSQLPetclinicModel.Tipo" />
+          <AssociationSet Name="FK__Mascota__Tipo_Id__6E01572D" Association="AzureSQLPetclinicModel.FK__Mascota__Tipo_Id__6E01572D">
+            <End Role="Tipo" EntitySet="Tipoes" />
+            <End Role="Mascota" EntitySet="Mascotas" />
+          </AssociationSet>
+          <EntitySet Name="Veterinarios" EntityType="AzureSQLPetclinicModel.Veterinario" />
+          <EntitySet Name="Veterinario_Especialidad" EntityType="AzureSQLPetclinicModel.Veterinario_Especialidad" />
+          <AssociationSet Name="FK__Veterinar__Veter__6FE99F9F" Association="AzureSQLPetclinicModel.FK__Veterinar__Veter__6FE99F9F">
+            <End Role="Veterinario" EntitySet="Veterinarios" />
+            <End Role="Veterinario_Especialidad" EntitySet="Veterinario_Especialidad" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Dueno">
+          <Key>
+            <PropertyRef Name="Dueno_Id" />
+          </Key>
+          <Property Name="Dueno_Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nombre" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="Apellido" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="Direccion" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Ciudad" Type="String" MaxLength="80" FixedLength="false" Unicode="false" />
+          <Property Name="Telefono" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="Mascota">
+          <Key>
+            <PropertyRef Name="Mascota_Id" />
+          </Key>
+          <Property Name="Mascota_Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Mascota1" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="Fecha_Nacimiento" Type="DateTime" Precision="0" />
+          <Property Name="Tipo_Id" Type="Int32" Nullable="false" />
+          <Property Name="Dueno_Id" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Tipo" Relationship="AzureSQLPetclinicModel.FK__Mascota__Tipo_Id__6E01572D" FromRole="Mascota" ToRole="Tipo" />
+          <NavigationProperty Name="Dueno" Relationship="AzureSQLPetclinicModel.FK__Mascota__Dueno_I__6EF57B66" FromRole="Mascota" ToRole="Dueno" />
+        </EntityType>
+        <Association Name="FK__Mascota__Dueno_I__6EF57B66">
+          <End Type="AzureSQLPetclinicModel.Dueno" Role="Dueno" Multiplicity="1" />
+          <End Type="AzureSQLPetclinicModel.Mascota" Role="Mascota" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Dueno">
+              <PropertyRef Name="Dueno_Id" />
+            </Principal>
+            <Dependent Role="Mascota">
+              <PropertyRef Name="Dueno_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Tipo">
+          <Key>
+            <PropertyRef Name="Tipo_Id" />
+          </Key>
+          <Property Name="Tipo_Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Tipo1" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <Association Name="FK__Mascota__Tipo_Id__6E01572D">
+          <End Type="AzureSQLPetclinicModel.Tipo" Role="Tipo" Multiplicity="1" />
+          <End Type="AzureSQLPetclinicModel.Mascota" Role="Mascota" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tipo">
+              <PropertyRef Name="Tipo_Id" />
+            </Principal>
+            <Dependent Role="Mascota">
+              <PropertyRef Name="Tipo_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Veterinario">
+          <Key>
+            <PropertyRef Name="Veterinario_Id" />
+          </Key>
+          <Property Name="Veterinario_Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nombre" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="Apellido" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Veterinario_Especialidad" Relationship="AzureSQLPetclinicModel.FK__Veterinar__Veter__6FE99F9F" FromRole="Veterinario" ToRole="Veterinario_Especialidad" />
+        </EntityType>
+        <EntityType Name="Veterinario_Especialidad">
+          <Key>
+            <PropertyRef Name="Veterinario_Especialidad_Id" />
+          </Key>
+          <Property Name="Veterinario_Especialidad_Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Veterinario_Id" Type="Int32" Nullable="false" />
+          <Property Name="Especialidad_Id" Type="Int32" Nullable="false" />
+        </EntityType>
+        <Association Name="FK__Veterinar__Veter__6FE99F9F">
+          <End Type="AzureSQLPetclinicModel.Veterinario" Role="Veterinario" Multiplicity="1" />
+          <End Type="AzureSQLPetclinicModel.Veterinario_Especialidad" Role="Veterinario_Especialidad" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Veterinario">
+              <PropertyRef Name="Veterinario_Id" />
+            </Principal>
+            <Dependent Role="Veterinario_Especialidad">
+              <PropertyRef Name="Veterinario_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="AzureSQLPetclinicModelStoreContainer" CdmEntityContainer="AzureSQLPetclinicEntities1">
+          <EntitySetMapping Name="Duenos_Grid">
+            <EntityTypeMapping TypeName="AzureSQLPetclinicModel.Duenos_Grid">
+              <MappingFragment StoreEntitySet="Duenos_Grid">
+                <ScalarProperty Name="Dueno_Id" ColumnName="Dueno_Id" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Apellido" ColumnName="Apellido" />
+                <ScalarProperty Name="Direccion" ColumnName="Direccion" />
+                <ScalarProperty Name="Ciudad" ColumnName="Ciudad" />
+                <ScalarProperty Name="Telefono" ColumnName="Telefono" />
+                <ScalarProperty Name="Mascotas" ColumnName="Mascotas" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Duenoes">
+            <EntityTypeMapping TypeName="AzureSQLPetclinicModel.Dueno">
+              <MappingFragment StoreEntitySet="Dueno">
+                <ScalarProperty Name="Telefono" ColumnName="Telefono" />
+                <ScalarProperty Name="Ciudad" ColumnName="Ciudad" />
+                <ScalarProperty Name="Direccion" ColumnName="Direccion" />
+                <ScalarProperty Name="Apellido" ColumnName="Apellido" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Dueno_Id" ColumnName="Dueno_Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Mascotas">
+            <EntityTypeMapping TypeName="AzureSQLPetclinicModel.Mascota">
+              <MappingFragment StoreEntitySet="Mascota">
+                <ScalarProperty Name="Dueno_Id" ColumnName="Dueno_Id" />
+                <ScalarProperty Name="Tipo_Id" ColumnName="Tipo_Id" />
+                <ScalarProperty Name="Fecha_Nacimiento" ColumnName="Fecha_Nacimiento" />
+                <ScalarProperty Name="Mascota1" ColumnName="Mascota" />
+                <ScalarProperty Name="Mascota_Id" ColumnName="Mascota_Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Tipoes">
+            <EntityTypeMapping TypeName="AzureSQLPetclinicModel.Tipo">
+              <MappingFragment StoreEntitySet="Tipo">
+                <ScalarProperty Name="Tipo1" ColumnName="Tipo" />
+                <ScalarProperty Name="Tipo_Id" ColumnName="Tipo_Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Veterinarios">
+            <EntityTypeMapping TypeName="AzureSQLPetclinicModel.Veterinario">
+              <MappingFragment StoreEntitySet="Veterinario">
+                <ScalarProperty Name="Apellido" ColumnName="Apellido" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Veterinario_Id" ColumnName="Veterinario_Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Veterinario_Especialidad">
+            <EntityTypeMapping TypeName="AzureSQLPetclinicModel.Veterinario_Especialidad">
+              <MappingFragment StoreEntitySet="Veterinario_Especialidad">
+                <ScalarProperty Name="Especialidad_Id" ColumnName="Especialidad_Id" />
+                <ScalarProperty Name="Veterinario_Id" ColumnName="Veterinario_Id" />
+                <ScalarProperty Name="Veterinario_Especialidad_Id" ColumnName="Veterinario_Especialidad_Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Ninguno" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

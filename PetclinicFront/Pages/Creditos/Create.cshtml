@@ -1,0 +1,127 @@
+﻿@page
+@model petclinicFront.Pages.Creditos.CreateModel
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+<h1>Solicitud de Crédito veterinario</h1>
+
+<h4></h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+
+        @if (ViewData["Preautorizado"]?.ToString() == "1" && ViewData["Score"]?.ToString() != null)
+        {
+            <script type="text/javascript">
+                Swal.fire(
+                    '¡Felicidades!',
+                    'Tu solicitud fué preautorizada, tu score fue: ' + @ViewData["Score"].ToString(),
+                    'success'
+                );
+            </script>
+        }
+        else if (ViewData["Preautorizado"]?.ToString() != "1" && ViewData["Score"]?.ToString() != null)
+        {
+            <script type="text/javascript">
+                Swal.fire({
+                    title: 'Lo sentimos.',
+                    text: 'Tu solicitud no fue autorizada, tu score fue: ' + @ViewData["Score"].ToString(),
+                    icon: 'error',
+                    confirmButtonText: 'Ok'
+                });
+            </script>
+        }
+
+
+
+
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label class="control-label">Genero: </label>
+                <br />
+                @Html.RadioButtonFor(model => model.SolicitudCredito.Genero, "false", new { id = "masculino" })
+                @Html.Label("masculino", "Masculino")
+                @Html.RadioButtonFor(model => model.SolicitudCredito.Genero, "true", new { id = "femenino" })
+                @Html.Label("femenino", "Femenino")
+                <span asp-validation-for="SolicitudCredito.Genero" class="text-danger"></span>
+            </div>
+
+
+            <div class="form-group">
+                <label class="control-label">¿Es casado?</label>
+                <input asp-for="SolicitudCredito.EsCasado" class="form-control" />
+                <span asp-validation-for="SolicitudCredito.EsCasado" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label">¿Cuantas personas dependen de usted?</label>
+                <input asp-for="SolicitudCredito.NumeroDependientes" class="form-control" />
+                <span asp-validation-for="SolicitudCredito.NumeroDependientes" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label">¿Tiene estudios universitarios finalizados?</label>
+                <input asp-for="SolicitudCredito.UniversidadFinalizada" class="form-control" />
+                <span asp-validation-for="SolicitudCredito.UniversidadFinalizada" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label">¿Es económicamente independiente?</label>
+                <input asp-for="SolicitudCredito.EsIndependiente" class="form-control" />
+                <span asp-validation-for="SolicitudCredito.EsIndependiente" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label">¿A cuanto ascienden sus ingresos mensuales directos?</label>
+                <input asp-for="SolicitudCredito.IngresosDirectos" class="form-control" />
+                <span asp-validation-for="SolicitudCredito.IngresosDirectos" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label">¿A cuanto ascienden sus ingresos mensuales indirectos?</label>
+                <input asp-for="SolicitudCredito.IngresosIndirectos" class="form-control" />
+                <span asp-validation-for="SolicitudCredito.IngresosIndirectos" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label">¿Ya tiene historial crediticio?</label>
+                <input asp-for="SolicitudCredito.PoseeHistorialCrediticio" class="form-control" />
+                <span asp-validation-for="SolicitudCredito.PoseeHistorialCrediticio" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label">En que tipo de área está ubicada su vivienda:</label>
+                <select asp-for="SolicitudCredito.TipoAreaVivienda" asp-items="Model.LookUpArea" class="form-control"></select>
+                <span asp-validation-for="SolicitudCredito.TipoAreaVivienda" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label">¿Cuál es el monto que solicita?</label>
+                <input asp-for="SolicitudCredito.MontoSolicitado" class="form-control" />
+                <span asp-validation-for="SolicitudCredito.MontoSolicitado" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label">Elija los plazos para su crédito:</label>
+                <select asp-for="SolicitudCredito.TiempoDiasCredito" asp-items="Model.LookUpPlazos" class="form-control"></select>
+                <span asp-validation-for="SolicitudCredito.TiempoDiasCredito" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <input type="submit" value="Guardar" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-page="Index">Atrás</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

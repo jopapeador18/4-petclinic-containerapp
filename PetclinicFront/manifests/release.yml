@@ -1,0 +1,62 @@
+# ASP.NET Core
+# Build and test ASP.NET Core projects targeting .NET Core.
+# Add steps that run tests, create a NuGet package, deploy, and more:
+# https://docs.microsoft.com/azure/devops/pipelines/languages/dotnet-core
+
+trigger:
+  batch: true
+  branches:
+    include:
+    - release/PetclinicFront/v*
+  paths:
+    include:
+    - /PetclinicFront/ 
+
+pool:
+  vmImage: ubuntu-18.04
+
+variables:
+  buildConfiguration: 'Release'
+  project: 'PetclinicFront/PetclinicFront.csproj'
+  containerRegistry: 'kbpsjrh00acr'
+  repository: 'petclinicfront-$(username)'
+  dockerfile: 'PetclinicFront/Dockerfile'
+  deploymentFile2Prod: 'PetclinicFront/manifests/deploy_to_production.yaml'
+  deploymentFile2Qa: 'PetclinicFront/manifests/deploy_to_qa.yaml'
+
+steps:
+# 1 - Build image
+- task: Docker@2
+  displayName: 'Construir imagen'
+  inputs:
+    containerRegistry: '$(containerRegistry)'
+    repository: '$(repository)'
+    command: 'build'
+    Dockerfile: '$(dockerfile)'
+
+# 2 - Push image
+- task: Docker@2
+  displayName: 'Publicar imagen'
+  inputs:
+    containerRegistry: '$(containerRegistry)'
+    repository: '$(repository)'
+    command: 'push'
+
+# 3 - Modify deployment file(qa)
+- task: CmdLine@2
+  displayName: 'Generar deployment file para QA'
+  inputs:
+    script: 'sed -i ''s/{ambiente}/$(repository)-qa/g; s/{repositorio}/$(repository)/g; s/:latest/:$(Build.BuildId)/g'' $(deploymentFile2Qa)'
+
+# 4 - Modify deployment file(production)
+- task: CmdLine@2
+  displayName: 'Generar deployment file para PROD'
+  inputs:
+    script: 'sed -i ''s/{ambiente}/$(repository)-prod/g; s/{repositorio}/$(repository)/g; s/:latest/:$(Build.BuildId)/g'' $(deploymentFile2Prod)'
+
+# 5 - Pusblish artifact
+- task: PublishPipelineArtifact@1
+  inputs:
+    targetPath: PetclinicFront/manifests
+    artifact: 'deploy-to-aks'
+    publishLocation: 'pipeline'

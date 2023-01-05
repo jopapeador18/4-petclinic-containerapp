@@ -1,0 +1,27 @@
+version: '1'
+services:
+  petclinicfront:
+    image: kubopsdemoacr.azurecr.io/petclinicfront:latest
+    container_name: petclinicfront
+    platform: windows
+    ports:
+        - "8080:80"
+    environment:
+      CLIENTES_BACKEND: "http://microduenos:80"
+      VETS_BACKEND: "http://microvets:80"
+  microduenos:
+    image: kubopsdemoacr.azurecr.io/microduenos:latest
+    container_name: microduenos
+    platform: windows
+    ports:
+        - "8081:80"
+    environment:
+      SQL_CONNECTION_STRING: "data source=azuresqlpetclinic.database.windows.net;initial catalog=AzureSQLPetclinic;persist security info=True;user id=p3tcl1n1c4dm1nDb;password=p3tcl1n1c4dm1nP4ssw0Rd;"
+  microvets:
+    image: kubopsdemoacr.azurecr.io/microvets:latest
+    container_name: microvets
+    platform: windows
+    ports:
+        - "8082:80"
+    environment:
+      SQL_CONNECTION_STRING: "data source=azuresqlpetclinic.database.windows.net;initial catalog=AzureSQLPetclinic;persist security info=True;user id=p3tcl1n1c4dm1nDb;password=p3tcl1n1c4dm1nP4ssw0Rd;"

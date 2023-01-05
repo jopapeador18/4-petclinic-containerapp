@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="9458e203ac1840689018e3b04f5a5ec4" Name="Diagram1">
+        <EntityTypeShape EntityType="AzureSQLPetclinicModel.Duenos_Grid" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="AzureSQLPetclinicModel.Dueno" Width="1.5" PointX="3.375" PointY="0.875" />
+        <EntityTypeShape EntityType="AzureSQLPetclinicModel.Mascota" Width="1.5" PointX="5.625" PointY="1" />
+        <AssociationConnector Association="AzureSQLPetclinicModel.FK__Mascota__Dueno_I__6EF57B66" />
+        <EntityTypeShape EntityType="AzureSQLPetclinicModel.Tipo" Width="1.5" PointX="0.75" PointY="4.875" />
+        <AssociationConnector Association="AzureSQLPetclinicModel.FK__Mascota__Tipo_Id__6E01572D" />
+        <EntityTypeShape EntityType="AzureSQLPetclinicModel.Veterinario" Width="1.5" PointX="3.375" PointY="4.875" />
+        <EntityTypeShape EntityType="AzureSQLPetclinicModel.Veterinario_Especialidad" Width="1.5" PointX="5.625" PointY="4.875" />
+        <AssociationConnector Association="AzureSQLPetclinicModel.FK__Veterinar__Veter__6FE99F9F" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

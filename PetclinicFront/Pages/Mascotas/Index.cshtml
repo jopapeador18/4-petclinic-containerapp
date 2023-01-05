@@ -1,0 +1,55 @@
+﻿@page
+@model petclinicFront.Pages.Mascotas.IndexModel
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+<h1>Listado de mascotas</h1>
+
+<p>
+    <a asp-page="Create">Crear nueva mascota</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Nombre
+            </th>
+            <th>
+                Tipo
+            </th>
+            <th>
+                Fecha de nacimiento
+            </th>
+            <th>
+                Dueño
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model.Mascotas) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Mascota1)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Tipo.Tipo1)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FechaNacimiento)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Dueno.Nombre)
+            </td>
+            <td>
+                <a asp-page="./Edit" asp-route-id="@item.DuenoId">Editar</a> |
+                <a asp-page="./Details" asp-route-id="@item.DuenoId">Detalles</a> |
+                <a asp-page="./Delete" asp-route-id="@item.DuenoId">Eliminar</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

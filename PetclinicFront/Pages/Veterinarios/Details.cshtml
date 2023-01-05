@@ -1,0 +1,58 @@
+﻿@page
+@model petclinicFront.Pages.Veterinarios.DetailsModel
+
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+<h1>Detalles</h1>
+
+<div>
+    <h4>Veterinario</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Veterinario.Nombre)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Veterinario.Nombre)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Veterinario.Apellido)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Veterinario.Apellido)
+        </dd>
+    </dl>
+</div>
+<h4>Especialidades registradas</h4>
+<hr/>
+<p>
+    <a asp-area="" asp-page="/Mascotas/Create" asp-route-duenoId="@Model.Veterinario.VeterinarioId">Registrar Especialidad nueva</a>
+
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Especialidad
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Veterinario.VeterinarioEspecialidad)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Especialidad.Especialidad1)
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<div>
+    <a asp-page="./Edit" asp-route-id="@Model.Veterinario.VeterinarioId">Editar</a> |
+    <a asp-page="./Index">Atrás</a>
+</div>

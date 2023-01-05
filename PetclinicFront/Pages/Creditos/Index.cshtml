@@ -1,0 +1,16 @@
+﻿@page
+@model petclinicFront.Pages.Creditos.IndexModel
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+<div class="jumbotron">
+    <h1 class="display-4">Solicitud de créditos</h1>
+    <p class="lead">En esta sección puedes solicitar tu crédito veterinario, haz click en el botón mas abajo, para llenar un formulario y al instante obtén una preautorización..</p>
+    <hr class="my-4">
+    <img src="~/images/pets.png" alt="Pets" />
+    <p>Con tu crédito puedes atender emergencias con tus Mascotas. ¡Date una oportunidad y dáselas a ellos!</p>
+    <a class="btn btn-primary btn-lg" role="button" asp-page="Create">Realizar una solicitud de crédito veterinario</a>
+</div>

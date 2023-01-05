@@ -1,0 +1,52 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {repositorio}
+  labels:
+    app: {repositorio}
+spec:
+  replicas: 1
+  template:
+    metadata:
+      name: {repositorio}
+      labels:
+        app: {repositorio}
+    spec:
+      nodeSelector:
+        "kubernetes.io/os": linux
+        agentpool: nodepool1
+      containers:
+      - name: {repositorio}
+        image: kbpsjrh00acr.azurecr.io/{repositorio}:latest
+        env:
+        - name: CLIENTES_BACKEND
+          value: "http://microduenos"
+        - name: VETS_BACKEND
+          value: "http://microvets"
+        - name: "CREDITS_BACKEND"
+          value: "http://microcreditos"
+        resources:
+          limits:
+            cpu: 50m
+            memory: 400M
+        ports:
+          - containerPort: 80
+      imagePullSecrets:
+      - name: regcred
+  selector:
+    matchLabels:
+      app: {repositorio}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    service.beta.kubernetes.io/azure-dns-label-name: {ambiente}
+  name: {repositorio}
+spec:
+  type: LoadBalancer
+  ports:
+  - protocol: TCP
+    port: 80
+  selector:
+    app: {repositorio}

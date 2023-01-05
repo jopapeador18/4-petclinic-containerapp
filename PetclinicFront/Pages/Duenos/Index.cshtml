@@ -1,0 +1,67 @@
+﻿@page
+@model petclinicFront.Pages.Duenos.IndexModel
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+<h1>Listado de clientes</h1>
+
+<p>
+    <a asp-page="Create">Crear nuevo cliente</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.DuenosGrid[0].Nombre)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DuenosGrid[0].Apellido)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DuenosGrid[0].Direccion)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DuenosGrid[0].Ciudad)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DuenosGrid[0].Telefono)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DuenosGrid[0].Mascotas)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model.DuenosGrid) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Nombre)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Apellido)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Direccion)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Ciudad)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Telefono)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Mascotas)
+            </td>
+            <td>
+                <a asp-page="./Edit" asp-route-id="@item.DuenoId">Editar</a> |
+                <a asp-page="./Details" asp-route-id="@item.DuenoId">Detalles</a> |
+                <a asp-page="./Delete" asp-route-id="@item.DuenoId">Eliminar</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

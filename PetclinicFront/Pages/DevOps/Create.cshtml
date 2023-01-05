@@ -1,0 +1,88 @@
+﻿@page
+@model petclinicFront.Pages.DevOps.IndexModel
+@{
+}
+<h1>Nuevo registro de mascota</h1>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post" id="form_mascotas">
+            <div class="text-danger"></div>
+            <div class="form-group">
+                <label class="control-label">Tipo de mascota</label>
+                <select class="form-control" id="tipo_mascota">
+                    <option value="">Selecciona</option>
+                    <option value="Perro">Perro</option>
+                    <option value="Gato">Gato</option>
+                    <option value="Ave">Ave</option>
+                    <option value="Reptil">Reptil</option>
+                </select>
+                <span class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label class="control-label">Nombre de la mascota</label>
+                <input class="form-control" id="nombre_mascota" />
+                <span class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label class="control-label">Peso</label>
+                <input class="form-control" id="peso" />
+                <span class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label class="control-label">Color</label>
+                <input class="form-control" id="color" />
+                <span class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" id="submit" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-page="Index">Back to List</a>
+</div>
+<script>
+    // A $( document ).ready() block.
+    $(document).ready(function () {
+        $("#submit").click((event) => {
+            event.preventDefault();
+            let tipo = $("#tipo_mascota")
+            let nombre = $("#nombre_mascota")
+            let peso = $("#peso")
+            let color = $("#color")
+
+            vTipo = validarCampo(tipo)
+            vNombre = validarCampo(nombre)
+            vPeso = validarCampo(peso)
+            vColor = validarCampo(color)
+
+            if (vTipo == true && vNombre == true && vPeso == true && vColor == true) {
+
+                let data2Save = {
+                    "tipo": tipo.val(),
+                    "nombre": nombre.val(),
+                    "peso": peso.val(),
+                    "color": color.val()
+                }
+
+                let mascotas = localStorage.getItem('mascotas')
+                mascotas = mascotas == null ? [] : JSON.parse(mascotas)
+                mascotas.push(data2Save)
+
+                localStorage.setItem('mascotas', JSON.stringify(mascotas))
+
+                alert("El registro ha sido guardado exitosamente")
+
+                $("#form_mascotas")[0].reset()
+            }
+        })
+
+        function validarCampo(elemento) {
+            elemento.val() == "" ? elemento.next().html("Campo requerido") : elemento.next().html("")
+            return elemento.val() == "" ? false : true
+        }
+    })
+</script>

@@ -1,0 +1,48 @@
+﻿@page
+@model petclinicFront.Pages.DevOps.IndexModel
+@{
+}
+<h1>Lista Mascotas</h1>
+
+<div>
+    <a asp-page="Create">Agregar mascota desde taller parte 3</a>
+</div>
+<hr />
+<div class="row">
+    <div class="col-md-12">
+        <table class="table" id="tabla_mascotas">
+            <thead>
+                <tr>
+                    <th scope="col">Tipo</th>
+                    <th scope="col">Nombre</th>
+                    <th scope="col">Peso</th>
+                    <th scope="col">Color</th>
+                </tr>
+            </thead>
+            <tbody>
+
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script>
+    // A $( document ).ready() block.
+    $(document).ready(function () {
+        let mascotas = localStorage.getItem('mascotas')
+        let html = ''
+        mascotas = mascotas == null ? [] : JSON.parse(mascotas)
+
+        $.each(mascotas, (i, v) => {
+            html+= `
+                <tr>
+                    <td>${v.tipo}</th>
+                    <td>${v.nombre}</td>
+                    <td>${v.peso}</td>
+                    <td>${v.color}</td>
+                </tr>`
+        })
+
+        $("#tabla_mascotas").find("tbody").html(html)
+    })
+</script>
