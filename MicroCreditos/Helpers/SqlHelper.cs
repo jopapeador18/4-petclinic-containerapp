@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Data.Entity.Core.EntityClient;
 using System.Data.SqlClient;
 using System.Linq;
@@ -11,7 +12,7 @@ namespace MicroCreditos.Helpers
     {
         public string BuildEFConnection(string shortConnectionString)
         {
-
+            return ConfigurationManager.ConnectionStrings["AzureSQLPetclinicEntities1"].ConnectionString;
             return $"metadata=res://*/Models.petclinic.csdl|res://*/Models.petclinic.ssdl|res://*/Models.petclinic.msl;" +
                 $"provider=System.Data.SqlClient;" +
                 $"provider connection string=\"{shortConnectionString}" +
