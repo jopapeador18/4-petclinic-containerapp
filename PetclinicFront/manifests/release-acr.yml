@@ -19,9 +19,7 @@ variables:
   solution: 'PetclinicFront/PetclinicFront.csproj'
   buildPlatform: 'Any CPU'
   buildConfiguration: 'Release'
-  ##Variables de ACR
-  dockerRegistryServiceConnection: '9cdde601-447d-4521-aa70-3192503fe1bf'
-  containerRegistry: 'tallerbwd.azurecr.io'
+  
   ##Datos adicionales 
   repository: 'petclinicfront-$(username)'
   dockerfile: 'PetclinicFront/Dockerfile'
@@ -29,20 +27,22 @@ variables:
 steps:
 # 1 - Build image
 - task: Docker@2
-  displayName: 'Construir imagen'
   inputs:
-    containerRegistry: '$(containerRegistry)'
+    containerRegistry: 'acr-conexion'
     repository: '$(repository)'
     command: 'build'
     Dockerfile: '$(dockerfile)'
+    
+
 
 # 2 - Push image
 - task: Docker@2
-  displayName: 'Publicar imagen'
   inputs:
-    containerRegistry: '$(containerRegistry)'
+    containerRegistry: 'acr-conexion'
     repository: '$(repository)'
     command: 'push'
+
+
 
 # 5 - Pusblish artifact
 
