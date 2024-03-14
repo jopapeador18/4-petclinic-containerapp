@@ -21,7 +21,7 @@ variables:
   buildConfiguration: 'Release'
   
   ##Datos adicionales 
-  repository: 'petclinicfront-$(username)'
+  repository: 'petclinicfront'
   dockerfile: 'PetclinicFront/Dockerfile'
 
 steps:
@@ -31,6 +31,7 @@ steps:
     containerRegistry: 'acr-conexion'
     repository: '$(repository)'
     command: 'build'
+    tags: latest
     Dockerfile: '$(dockerfile)'
     
 
