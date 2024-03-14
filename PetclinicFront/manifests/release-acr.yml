@@ -13,7 +13,7 @@ trigger:
     - /PetclinicFront/ 
 
 pool:
-  vmImage: 'windows-latest'
+  vmImage: 'ubuntu-latest'
 
 variables:
   solution: 'PetclinicFront/PetclinicFront.csproj'
