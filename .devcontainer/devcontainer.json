@@ -1,0 +1,13 @@
+{
+    "image":"mcr.microsoft.com/devcontainers/universal:2",
+     //Personalización del editor
+     "customizations": {
+        "vscode": {
+            //lista de extensiones requeridas
+            "extensions": [
+                "GitHub.copilot",
+                "GitHub.copilot-chat"
+            ]
+        }
+    }
+}
