@@ -31,7 +31,6 @@ steps:
     containerRegistry: 'acr-conexion'
     repository: '$(repository)'
     command: 'build'
-    tags: latest
     Dockerfile: '$(dockerfile)'
     
 
