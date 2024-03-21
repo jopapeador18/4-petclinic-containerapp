@@ -1,4 +1,5 @@
 {
+    "ghcr.io/devcontainers/features/java:1": {},
     "image":"mcr.microsoft.com/devcontainers/universal:2",
      //Personalización del editor
      "customizations": {
